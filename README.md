@@ -20,15 +20,10 @@ Dari asumsi-asumsi diatas bisa dikelompokan kedalam 2 pattern, yaitu `Stability 
     - Timeout
     - Debounce
     - Throttle
-- Concurrency Pattern
-    - Fan-In
-    - Fan-Out
-    - Future
-    - Sharding
 
 Learn From Books:
 
-- [Cloud Native Go](https://learning.oreilly.com/library/view/cloud-native-go/9781492076322/) by (Matthew A. Titmus)(https://www.linkedin.com/in/matthew-titmus/)
+- [Cloud Native Go](https://learning.oreilly.com/library/view/cloud-native-go/9781492076322/) by [Matthew A. Titmus](https://www.linkedin.com/in/matthew-titmus/)
 
 ## Stability Pattern
 
@@ -60,8 +55,7 @@ Beberapa repository dan implementasi circuit breaker:
 - https://github.com/afex/hystrix-go
 - https://github.com/go-kit/kit/tree/master/circuitbreaker
 
-
-#### Referece
+#### Reference
 
 * https://microservices.io/patterns/reliability/circuit-breaker.html
 
@@ -75,3 +69,33 @@ Function `Retry` akan membungkus `Requestor`, untuk mengandle error dari request
 Lalu function `Retry` bisa mengkontrol berapa kali retry hingga akhirnya gagal dan juga delay setiap requestnya.
 
 Untuk implementasi bisa dilihat [Retry](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/retry).
+
+Beberapa repository dan implementasi retry:
+
+- https://github.com/avast/retry-go
+- https://github.com/sethvargo/go-retry
+- https://github.com/go-kit/kit/blob/master/sd/lb/retry.go
+
+#### Reference
+
+* http://thinkmicroservices.com/blog/2019/retry-pattern.html
+
+### Timeout
+
+Pada dasarnya timeout akan menghentikan proses dalam durasi waktu.
+Biasanya ketika ada masalah didalam service seperti query lambat atau konek ke service lain lambat.
+Sehingga proses berjalan menjadi lama. 
+Agar tidak dalam proses terus menerus dan client mengunggu lama ada bagusnya kita kasih durasi akses.
+Bukan berarti proses lama itu pasti gagal, bisa jadi memang prosesnya perlu waktu sehingga harus dihandle secara asyc, 
+bisa dibaca di [long process API](https://github.com/zeihanaulia/go-long-process-api) untuk melihat proof of concept dari handle api yang memproses lama.
+
+Untuk membuat timeout pada service kita hanya perlu memainkan context
+
+```go
+ctx := context.Background()
+ctxt, cancel := context.WithTimeout(ctx, 10 * time.Second)
+defer cancel()
+
+result, err := SomeFunction(ctxt)
+```
+
