@@ -1,6 +1,42 @@
-# Cloud Native Pattern
+# Cloud Native
 
-Asumsi-asumsi yang salah dalam distributed computing:
+Tulisan ini akan mengulas hasil pembelajaran dari beberapa sumber [#learn-from-books](#learn-from-books). 
+Dan terinspirasi dari obrolan [The Pursuit of Production-Ready Software: Best Practices and Principles](https://www.youtube.com/watch?v=DR0yj7yEDdw)
+
+Semua pembahasan tersebut mengerucut ke system [Dependability](https://en.wikipedia.org/wiki/Dependability).
+
+* Dependability:
+    - Attributes
+        - Availability
+        - Reliability
+        - Maintainability
+        - Safety
+        - Confidentiality
+        - Integrity
+    - Threats
+        - Faults
+        - Errors
+        - Failures
+    - Means
+        - Prevention
+        - Tolerance
+        - Removal
+        - Forecasting
+
+
+- Availability 
+- Reliability
+- Maintainability
+
+## Learn From Books:
+
+- https://microservices.io/
+- [Cloud Native Go](https://learning.oreilly.com/library/view/cloud-native-go/9781492076322/) by [Matthew A. Titmus](https://www.linkedin.com/in/matthew-titmus/)
+- [Designing Data-Intensive Applications](https://learning.oreilly.com/library/view/designing-data-intensive-applications/9781491903063/) by [Martin Kleppmann](https://martin.kleppmann.com/)
+
+## Common Failure
+
+Asumsi-asumsi yang salah dalam distributed computing, menurut  [L Peter Deutsch](https://en.wikipedia.org/wiki/Fallacies_of_distributed_computing), 
 
 - The network is reliable: switches fail, routers get misconfigured
 - Latency is zero: it takes time to move data across a network
@@ -12,18 +48,16 @@ Asumsi-asumsi yang salah dalam distributed computing:
 - The network is homogeneous: every network is (sometimes very) different
 - Services are reliable: services that you depend on can fail at any time
 
-Dari asumsi-asumsi diatas bisa dikelompokan kedalam 2 pattern, yaitu `Stability Pattern` dan `Concurrency Pattern`.
+Maka dari itu kita perlu belajar tentang stability pattern yang bisa digunakan.
 
 - Stability Pattern
     - Circuit Breaker
     - Retry
+    - Debounce & Throttle
     - Timeout
-    - Debounce
-    - Throttle
 
-Learn From Books:
+Sebenarnya beberapa hal diatas bisa tercover dengan tools-tools seperti [istio](https://istio.io/latest/docs/tasks/traffic-management/), [nginx](https://www.nginx.com/resources/library/api-traffic-management-101-monitoring-beyond/), dll. Tidak ada salahnya coba membuat dari sisi script jika tidak menggunakan tools tersebut.
 
-- [Cloud Native Go](https://learning.oreilly.com/library/view/cloud-native-go/9781492076322/) by [Matthew A. Titmus](https://www.linkedin.com/in/matthew-titmus/)
 
 ## Stability Pattern
 
@@ -79,6 +113,37 @@ Beberapa repository dan implementasi retry:
 #### Reference
 
 * http://thinkmicroservices.com/blog/2019/retry-pattern.html
+
+### Debounce && Throttle
+
+Kedua pattern ini kurang lebih sama, hanya saja cara kerjanya berbeda.
+
+Throttle menjaga input masuk dalam durasi tertentu, misalnya 100 request per menit.
+Debounce hanya menerima input yang sama dalam 1 kali,hanya diawal atau diakhir.
+
+#### Throttle
+
+Throttle membatasi jumlah function direquest. Contoh penggunaan:
+
+- User hanya boleh request dalam 10 kali per detik.
+- Membatasi jeda klik per 500 millisecond
+- Hanya boleh 3 kali gagal login dalam 24 jam
+
+Tapi biasanya kita menggunakan Throttle memperhitungkan lonjakan aktifitas yang dapat memenuhi system.
+Jika system tidak sanggup, maka akan terjadi kegagalan.
+
+#### Debounce
+
+Debounce membatasi jumlah function direquest. Contoh penggunaan:
+
+- User hanya boleh request dalam 10 kali per detik.
+- Membatasi jeda klik per 500 millisecond
+- Hanya boleh 3 kali gagal login dalam 24 jam
+
+Tapi biasanya kita menggunakan Throttle memperhitungkan lonjakan aktifitas yang dapat memenuhi system.
+Jika system tidak sanggup, maka akan terjadi kegagalan.
+
+
 
 ### Timeout
 
