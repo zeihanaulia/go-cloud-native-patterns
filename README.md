@@ -51,6 +51,15 @@ Sebaliknya jika status `open` maka function tidak akan meneruskan dan membuat se
 
 Dan biasanya akan ada logic auto `close` breaker, Untuk mengecek apakah service sudah berjalan dengan normal.
 
+Untuk implementasi bisa dilihat [Breaker](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/breaker)
+
+Beberapa repository dan implementasi circuit breaker:
+
+- https://github.com/sony/gobreaker
+- https://github.com/streadway/handy
+- https://github.com/afex/hystrix-go
+- https://github.com/go-kit/kit/tree/master/circuitbreaker
+
 
 #### Referece
 
