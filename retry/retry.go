@@ -11,7 +11,7 @@ type Requestor func(context.Context) (string, error)
 func Retry(requestor Requestor, retries int, delay time.Duration) Requestor {
 	return func(ctx context.Context) (string, error) {
 		for r := 0; ; r++ {
-			response, err := requestor(c)
+			response, err := requestor(ctx)
 			if err == nil || r >= retries {
 				return response, err
 			}
