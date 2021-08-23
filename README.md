@@ -16,10 +16,10 @@ Dari asumsi-asumsi diatas bisa dikelompokan kedalam 2 pattern, yaitu `Stability 
 
 - Stability Pattern
     - Circuit Breaker
-    - Debounce
     - Retry
-    - Throttle
     - Timeout
+    - Debounce
+    - Throttle
 - Concurrency Pattern
     - Fan-In
     - Fan-Out
@@ -51,7 +51,7 @@ Sebaliknya jika status `open` maka function tidak akan meneruskan dan membuat se
 
 Dan biasanya akan ada logic auto `close` breaker, Untuk mengecek apakah service sudah berjalan dengan normal.
 
-Untuk implementasi bisa dilihat [Breaker](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/breaker)
+Untuk implementasi bisa dilihat [Breaker](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/breaker).
 
 Beberapa repository dan implementasi circuit breaker:
 
@@ -64,3 +64,14 @@ Beberapa repository dan implementasi circuit breaker:
 #### Referece
 
 * https://microservices.io/patterns/reliability/circuit-breaker.html
+
+### Retry
+
+Retry adalah mekanisme pengulangan request ketika terjadi kegagalan ketika membuat request.
+Biasanya retry juga memiliki batas mengulang dan juga periode pengulangannya.
+
+Sama seperti CB, untuk membuat `Retry` juga menggunakan [Adapter Pattern](https://refactoring.guru/design-patterns/adapter).
+Function `Retry` akan membungkus `Requestor`, untuk mengandle error dari requestor.
+Lalu function `Retry` bisa mengkontrol berapa kali retry hingga akhirnya gagal dan juga delay setiap requestnya.
+
+Untuk implementasi bisa dilihat [Retry](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/retry).

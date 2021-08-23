@@ -36,15 +36,15 @@
         }
     ```
 
-    Lalu assign `lastAttempt` setelah function `response, err := circuit(ctx)` dijalankan
-    Setelah itu check tambahkan nilai `consecutiveFailures` jika error dan buat jadi `0` jika tidak error
-    ```go
-        if err != nil {
-            consecutiveFailures++
-            return response, err
-        }
-        consecutiveFailures = 0
-    ```
+    - Lalu assign `lastAttempt` setelah function `response, err := circuit(ctx)` dijalankan
+    - Setelah itu check tambahkan nilai `consecutiveFailures` jika error dan buat jadi `0` jika tidak error
+        ```go
+            if err != nil {
+                consecutiveFailures++
+                return response, err
+            }
+            consecutiveFailures = 0
+        ```
 
 4. Buat logic untuk membuka breaker jika error lebih dari batas
     ```go
@@ -73,7 +73,7 @@
         }
     ```
 
-    Definisikan variable `d` =  `consecutiveFailures - int(failureThreshold)`
-    Jika variable `d` lebih besar atau sama dengan 0
-    Maka check apakah waktu sekarang setelah  nilai `shouldRetryAt`.
-    Jika tidak maka `open circuit` atau return error
+    - Definisikan variable `d` =  `consecutiveFailures - int(failureThreshold)`
+    - Jika variable `d` lebih besar atau sama dengan 0
+    - Maka check apakah waktu sekarang setelah  nilai `shouldRetryAt`.
+    - Jika tidak maka `open circuit` atau return error
