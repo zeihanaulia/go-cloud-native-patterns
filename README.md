@@ -28,11 +28,16 @@ Mengutip dari gambar di [wikipedia](https://en.wikipedia.org/wiki/Dependability)
         - Forecasting
 
 - Availability 
+
     Kemampuan system berkerja dalam suatu waktu secara acak. Biasanya diekspresikan dari berapa banyak request yang diterima oleh system. 
     Uptime dibagi dengan total time.
+
 - Reliability
+    
     Kemampuan system berkerja dalam interval waktu. Biasanya diekspresikan dengan mean time beetwen  failures  (MTBF: total time dibagi denan total failures) atau failure rate (number or failures dibagi total time).
+
 - Maintainability
+    
     Kemampuan suatu sistem untuk mengalami modifikasi dan perbaikan. Ada beberapa jenis untuk mengukur maintainability.
     Mulai dari perhitungan cyclomatic complexity hingga pelacakan total waktu yang diperlukan untuk melakukan perbaikan system
     atau mengembalikan ke status sebelumnya.
@@ -40,12 +45,19 @@ Mengutip dari gambar di [wikipedia](https://en.wikipedia.org/wiki/Dependability)
 Ada 4 kategori teknik yang dapat digunakan untuk mengimprove systems depentability:
 
 - Fault prevention (Scalability / Loose Coupling)
+
     Digunakan selama pembuatan system untuk mencegah terjadinya kesalahan.
+
 - Fault tolerance (Resilence / Loose Coupling)
+    
     Digunakan selama mendesign system dan implementasi untuk mencegah kegagalan karena adanya kesalahan.
+
 - Fault removal (Manageability)
+    
     Digunakan untuk mengurangi jumlah dan tingkat keparahan(severity) kesalahan.
+
 - Fault forecasting (Observability)
+    
     Digunakan untuk menidentifikasi keberadaan, penciptaan dan kosekuensi dari kesalahan.
 
 ### Fault Prevention
