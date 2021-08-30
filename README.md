@@ -207,6 +207,122 @@ Jadi apa saja isi dari cloud native:
 
     > Scale out via the process model.
 
+    Sistem dapat dianggap "scalable" jika kita bisa menambah atau mengurangi kekuatan service sesuai kebutuhan dengan mudah.
+
+    Scaling ada 2 bentuk, yaitu:
+
+        - Vertical Scaling (scale up)
+
+            Menambah resource server / phisical resource. Dijaman cloud computing saat ini sudah cukup mudah untuk menambah resource.
+
+        - Horizontal Scaling
+
+            Menduplikasi system atau service untuk membatasi beban disatu server. 
+            Tapi aplikasi kita haruslah `stateless` karena akan sulit mekalukan scaling jika `state`.
+
+    Apa yang menyebabkan system harus discale?
+
+    Penyebabnya biasanya karena adanya kemacetan "Bottleneck". 
+    Solusi gampangnya ya menaikan resource komponen yang bottleneck (Vertical Scaling).
+    Tapi cara ini gak akan bisa digunakan selamanya, Resource yang dinaikan pasti ada batasnya seperti batas teknologi dan batas keuangan. 
+    Makin tinggi resource yang digunakan pastinya akan semakin mahal.
+
+    Biasanya apa saja yang komponen-komponen yang bisa bottleneck?
+
+    - CPU
+    - Memory
+    - Disk I/O
+    - Network I/O
+
+    Apa itu stateful dan stateless?
+
+    Stateful itu aplikasi yang service dan datanya disimpan didalam satu container atau lokal. 
+    Aplikasi seperti ini sulit untuk direplica karena datanya juga pasti akan tereplika menjadi 2 sistem berbeda.
+
+    Stateless sebaliknya, sevice dan data terpisah. Sehingga kita bisa menduplikasi service dengan mudah, karena data terpusat diluar dari service aplikasi.
+
+    Keuntungan membuat aplikasi stateless:
+
+    - Scalability
+
+        System akan lebih mudah untuk ditambah atau dikurangi. Karena tidak ada data yang tersimpan didalam service.
+        Semua data sudah terpusat ditempat lain.
+
+    - Durability
+
+        Karena data sudah terpusat ditempat lain, kita tidak akan kehilangan data ketika service ditambah atau dikurangi.
+
+    - Simplicity
+
+        Tidak perlu ada data yang disync, bisa dengan cepat mereplika system
+
+    - Cacheability
+
+        APIs yang didesign dengan stateless service relatif mudah untuk dicache.
+
+
+    Selain itu untuk mencapai sistem yang skalable, kita perlu belajar tentang service architechture.
+
+    Dalam pengembangan sistem biasanya dimulai dengan [The Monolith System Architecture](https://microservices.io/patterns/monolithic.html).
+    Dimana satu service menjalankan banyak proses secara bersamaan. Banyak fungsi-fungsi didalamnya digabungkan dalam 1 database.
+    Pada prosesnya monolith system lebih sederhana membuatnya tapi seiring berjalannya waktu akan sulit untuk dimanage dan discale. 
+
+    Setelah monolith biasanya system akan berkembang ke [The Microservices System Architecture](https://microservices.io/patterns/microservices.html). 
+    Dimana system akan dipecah pecah sesuai dengan domainnya. Ada pendapat dari Martin Fowler harus [monolith first](https://martinfowler.com/bliki/MonolithFirst.html). Alasannya masuk akal, "Kalau kita gak bisa bikin system monolith yang benar, bagaimana cara kita bikin microservice".
+    Tapi yang menarik ada bantahan dari [Stevan Tilkov](https://www.innoq.com/blog/st/) - [Don't Start with Monolith](https://martinfowler.com/articles/dont-start-monolith.html). Keduanya menarik untuk dipelajari.
+
+    Lalu muncul perkembangan lagi yang perlu kita pelajari, yaitu [Serverless Architecture](https://martinfowler.com/articles/serverless.html).
+    Mulai ramai setelah kemunculan AWS Lambda lalu dikuti cloud provider lain seperti GPC Cloud Function yang berlomba-lomba dalam membuat serverless provder.
+
+    Serverless bukannya tanpa server, tetap ada server tapi kita tidak perlu repot-repot mengkonfigurasi disisi server.
+    Kalau microservice kita perlu memcah system sesuai domain dengan cara serverless kita bisa pecah hingga level function.
+    Karena itu dikenal dengan FaasS (Function as a Service).
+
+    Diluar dari cloud provider ada juga beberapa project open source yang memungkinkan kita membuat serverless sendiri, seperti [Knative](https://knative.dev/docs/), [OpenFaas](https://www.openfaas.com/), [Kubeless](https://kubeless.io/), dll
+    
+    Kelebihan dan Kekurangan menggunakan Serverless Architechture:
+
+    - Kelebihan
+
+        - Operational Management
+        - Scalability
+        - Reduce Cost 
+        - Productivity
+
+    - Kekurangan
+        
+        - Vendor Lock-In
+        
+            Kalau pakai AWS Lambda atau Cloud Function. 
+            Kalo pakai knative, openfass, dll mestinya gak vendor lock-in tapi tetap ada configurasi diawal.
+
+        - Startup latency
+
+            Atau istilah lainnya cold start, karena biasanya kita akan sering mematikan dan menyalakan.
+            Ketika service tidak dihit, maka server akan idle dan tidak ada resource yang perlu dibayar.
+            Tapi buruknya akan ada jeda ketika server mulai berkerja lagi.
+
+        - Tidak cocok untuk task yang lama.
+
+            Serverless diperuntukan menjalankan process yang cepat, hit, process, stop.
+            Kalo dipaksa untuk menjalankan process yang lama bisa saja, tapi hitungannya menjadi lebih mahal.
+
+        - Complexity
+
+            Karena biasanya bentuknya function, jika tidak didokumentasikan dengan baik akan susah sendiri nantinya.
+            Karena akan lebih banyak function yang dideploy dan tidak terdokumentasi.
+        
+
+        Sumber Belajar Lain:
+
+        - [Serverless Guide](https://github.com/serverless/guide/blob/master/ebook/dist/guide.pdf)
+        - [OpenFaaS: From Zero to Serverless in 60 Seconds Anywhere with Alex Ellis](https://www.youtube.com/watch?v=C3agSKv2s_w)
+        - [What is Knative?](https://www.youtube.com/watch?v=69OfdJ5BIzs)
+        
+
+        <!-- TODO: Implementasi Knative -->
+        <!-- TODO: Implementasi OpenFaas -->
+
 9. Disposability
 
     > Maximize robustness with fast startup and graceful shutdown.
@@ -298,7 +414,7 @@ Sebaliknya jika status `open` maka function tidak akan meneruskan dan membuat se
 
 Dan biasanya akan ada logic auto `close` breaker, Untuk mengecek apakah service sudah berjalan dengan normal.
 
-Untuk implementasi bisa dilihat [Breaker](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/breaker).
+Untuk implementasi bisa dilihat [Breaker](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/pkg/breaker).
 
 Beberapa repository dan implementasi circuit breaker:
 
@@ -320,7 +436,7 @@ Sama seperti CB, untuk membuat `Retry` juga menggunakan [Adapter Pattern](https:
 Function `Retry` akan membungkus `Requestor`, untuk mengandle error dari requestor.
 Lalu function `Retry` bisa mengkontrol berapa kali retry hingga akhirnya gagal dan juga delay setiap requestnya.
 
-Untuk implementasi bisa dilihat [Retry](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/retry).
+Untuk implementasi bisa dilihat [Retry](https://github.com/zeihanaulia/go-cloud-native-patterns/tree/main/pkg/retry).
 
 Beberapa repository dan implementasi retry:
 
